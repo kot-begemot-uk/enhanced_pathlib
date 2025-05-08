@@ -56,13 +56,9 @@ class EPath(PosixPath):
 
     def verify(self, data):
         '''Verify detached signature'''
-        try:
-            data_hash = SIGNATURE_HANDLERS[self.signed].new(data)
-            pkcs1_15.new(self.key).verify(data_hash, self.signature)
-            return True
-        except (ValueError, TypeError):
-            pass
-        return False
+        data_hash = SIGNATURE_HANDLERS[self.signed].new(data)
+        # this raises Value Error if the signature does not match
+        pkcs1_15.new(self.key).verify(data_hash, self.signature)
 
     def read_bytes(self):
         '''Read additional formats and present them as bytes'''
@@ -74,20 +70,14 @@ class EPath(PosixPath):
         # pylint: disable=consider-using-with
 
         fileobj = self.open(mode='rb')
-        data = None
+        data = fileobj.read()
+        fileobj.close()
 
         if self.signed is not None:
-            data = fileobj.read()
-            if not self.verify(data):
-                raise ValueError("Failed to verify signature")
-            fileobj.close()
-            stream = io.BytesIO(data)
-        else:
-            stream = fileobj
+            self.verify(data)
 
         if self.compress is not None:
-            data = COMPRESSION_HANDLERS[self.compress](fileobj=stream).read()
-        stream.close()
+            data = COMPRESSION_HANDLERS[self.compress](fileobj=io.BytesIO(data)).read()
 
         return data
 
