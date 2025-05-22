@@ -7,7 +7,7 @@ from pathlib import Path
 from tempfile import mkstemp
 import os
 
-from epath.epath import EPath
+from epath import EPath
 from Cryptodome.PublicKey import RSA
 
 from nose.tools import ok_ as assert_
