@@ -8,9 +8,10 @@
 # Licensed under the BSD 3-clause License
 #
 
-from pathlib import PosixPath
+from pathlib import PurePosixPath, PurePath, Path
 from gzip import GzipFile
 import io
+import sys
 
 try:
     from Crypto.Hash import SHA224, SHA256, SHA384, SHA512 # SHA2 family
@@ -38,21 +39,22 @@ SIGNATURE_HANDLERS = {
     'sha3-512':SHA3_512,
 }
 
-class EPath(PosixPath):
+class EPath(Path, PurePosixPath):
     '''Enhanced Path class supporting compressed, signed and encrypted formats'''
     # pathlib initializes attributes in __new__ instead of init. We have to follow
     # this convention in order to descend from it. That is ugly, prohibited and and
     # an abbomination onto Nuggan. Nothing we can do about it short of disabling
     # the checks
 
+    __slots__ = (*PurePath.__slots__, *("signed", "compress", "signature", "key"))
+
     # pylint: disable=self-cls-assignment,return-in-init,inconsistent-return-statements
     def __new__(cls, *args, **kwargs):
         cls = EPath
-        try:
+        if sys.version_info[0] == 3 and sys.version_info[1] < 12:
             self = cls._from_parts(args)
             return self
-        except AttributeError:
-            return object.__new__(cls)
+        return object.__new__(cls)
 
     # The parent classes in pathlib initialize instance attribs in __new__ instead of __init__
     # We have to follow this convention, which requires leaving *args alone and not calling
