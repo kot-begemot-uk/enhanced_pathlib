@@ -15,7 +15,7 @@ from Cryptodome.Hash import SHA224, SHA256, SHA384, SHA512 # SHA2 family
 from Cryptodome.Hash import SHA3_224, SHA3_256, SHA3_384, SHA3_512 # SHA2 family
 from Cryptodome.Signature import pkcs1_15
 
-VERSION = "0.0.2"
+VERSION = "0.0.3"
 
 COMPRESSION_HANDLERS = {
     'gzip':GzipFile

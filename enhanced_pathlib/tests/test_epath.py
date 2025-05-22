@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-'''Test cases for epath module'''
+'''Test cases for the enhanced pathlib module'''
 
 from pathlib import Path
 from tempfile import mkstemp
 import os
 
-from epath import EPath
+from enhanced_pathlib import EPath
 from Cryptodome.PublicKey import RSA
 
 from nose.tools import ok_ as assert_

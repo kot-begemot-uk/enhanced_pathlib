@@ -6,7 +6,7 @@ Supports compression/decompression and signature verification.
 Example use:
 
 ```
-from epath import Epath
+from enhanced_pathlib import Epath
 from Cryptodome.PublicKey import RSA
 key = RSA.import_key(open('testpublickey.pem').read())
 sig = open('testfile.gz.sig', mode="rb").read()

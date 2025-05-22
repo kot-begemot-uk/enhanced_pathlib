@@ -3,8 +3,8 @@ requires = ["hatchling==1.26.3", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
-name = "epath"
-version = "0.0.2"
+name = "enhanced_pathlib"
+version = "0.0.3"
 authors = [
   { name="Anton Ivanov", email="anton.ivanov@cambridgegreys.com" },
 ]
