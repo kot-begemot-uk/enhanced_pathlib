@@ -13,13 +13,13 @@ from gzip import GzipFile
 import io
 
 try:
-    from Cryptodome.Hash import SHA224, SHA256, SHA384, SHA512 # SHA2 family
-    from Cryptodome.Hash import SHA3_224, SHA3_256, SHA3_384, SHA3_512 # SHA2 family
-    from Cryptodome.Signature import pkcs1_15
-except ModuleNotFoundError:
     from Crypto.Hash import SHA224, SHA256, SHA384, SHA512 # SHA2 family
     from Crypto.Hash import SHA3_224, SHA3_256, SHA3_384, SHA3_512 # SHA2 family
     from Crypto.Signature import pkcs1_15
+except ModuleNotFoundError:
+    from Cryptodome.Hash import SHA224, SHA256, SHA384, SHA512 # SHA2 family
+    from Cryptodome.Hash import SHA3_224, SHA3_256, SHA3_384, SHA3_512 # SHA2 family
+    from Cryptodome.Signature import pkcs1_15
 
 VERSION = "0.0.4"
 
@@ -48,8 +48,11 @@ class EPath(PosixPath):
     # pylint: disable=self-cls-assignment,return-in-init,inconsistent-return-statements
     def __new__(cls, *args, **kwargs):
         cls = EPath
-        self = cls._from_parts(args)
-        return self
+        try:
+            self = cls._from_parts(args)
+            return self
+        except AttributeError:
+            return object.__new__(cls)
 
     # The parent classes in pathlib initialize instance attribs in __new__ instead of __init__
     # We have to follow this convention, which requires leaving *args alone and not calling
