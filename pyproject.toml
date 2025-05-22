@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "enhanced_pathlib"
-version = "0.0.3"
+version = "0.0.4"
 authors = [
   { name="Anton Ivanov", email="anton.ivanov@cambridgegreys.com" },
 ]

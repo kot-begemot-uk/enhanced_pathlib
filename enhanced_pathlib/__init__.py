@@ -11,11 +11,17 @@
 from pathlib import PosixPath
 from gzip import GzipFile
 import io
-from Cryptodome.Hash import SHA224, SHA256, SHA384, SHA512 # SHA2 family
-from Cryptodome.Hash import SHA3_224, SHA3_256, SHA3_384, SHA3_512 # SHA2 family
-from Cryptodome.Signature import pkcs1_15
 
-VERSION = "0.0.3"
+try:
+    from Cryptodome.Hash import SHA224, SHA256, SHA384, SHA512 # SHA2 family
+    from Cryptodome.Hash import SHA3_224, SHA3_256, SHA3_384, SHA3_512 # SHA2 family
+    from Cryptodome.Signature import pkcs1_15
+except ModuleNotFoundError:
+    from Crypto.Hash import SHA224, SHA256, SHA384, SHA512 # SHA2 family
+    from Crypto.Hash import SHA3_224, SHA3_256, SHA3_384, SHA3_512 # SHA2 family
+    from Crypto.Signature import pkcs1_15
+
+VERSION = "0.0.4"
 
 COMPRESSION_HANDLERS = {
     'gzip':GzipFile

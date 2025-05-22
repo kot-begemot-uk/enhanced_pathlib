@@ -8,7 +8,10 @@ from tempfile import mkstemp
 import os
 
 from enhanced_pathlib import EPath
-from Cryptodome.PublicKey import RSA
+try:
+    from Cryptodome.PublicKey import RSA
+except ModuleNotFoundError:
+    from Crypto.PublicKey import RSA
 
 from nose.tools import ok_ as assert_
 from nose.tools import raises
